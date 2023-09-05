@@ -19,28 +19,34 @@ const App = () => {
   )
 }
 
-const Statistics = ({good, neutral, bad}) => {
-  return (
-    <div>
-      <StatisticLine text="good" value={good} />
-      <StatisticLine text="neutral" value={neutral} />
-      <StatisticLine text="bad" value={bad} />
-      <StatisticLine text="all" value={good+bad+neutral} />
-      <StatisticLine text="average" value={(good-bad)/(good+bad+neutral)} />
-      <StatisticLine text="positive" value={`${ good*100 / (good+bad+neutral) }%`} />
-    </div>
-  )
-}
-
 const Button = ({clickHandler, text}) => {
   return (
     <button onClick={clickHandler}>{text}</button>
   )
 }
 
+const Statistics = ({good, neutral, bad}) => {
+  const all = good+bad+neutral
+  return (
+    <table>
+      <tbody>
+        <StatisticLine text="good" value={good} />
+        <StatisticLine text="neutral" value={neutral} />
+        <StatisticLine text="bad" value={bad} />
+        <StatisticLine text="all" value={all} />
+        <StatisticLine text="average" value={`${ (good-bad) / all }`} />
+        <StatisticLine text="positive" value={`${ good*100 / all }%`} />
+      </tbody>
+    </table>
+  )
+}
+
 const StatisticLine = ({text, value}) => {
   return (
-    <p>{text} {value}</p>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   )
 }
 
