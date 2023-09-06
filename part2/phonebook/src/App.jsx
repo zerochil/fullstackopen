@@ -5,6 +5,7 @@ const App = () => {
   const [persons, setPersons] = useState([])
   // const [newName, setNewName] = useState('')
   const [filter, setFilter] = useState('')
+  const [successMessage, setSuccessMessage] = useState(null)
 
   useEffect(() => {
     personService.get("http://localhost:3000/db").then(
@@ -13,17 +14,17 @@ const App = () => {
       }    
     )
   },[])
-
+  setSuccessMessage
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    setSuccessMessage
     const formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
     // const personExist = persons.filter( person => person.name === formProps.name)rson => 
     const index = persons.findIndex( person => person.name === formProps.name )
     console.log(index)
-    if ( index ){
+    if ( index >= 0 ){
       if ( formProps.number == persons[index].number ){
         alert( `${formProps.name} is alrady added to phonebook` )
       } else {
@@ -38,6 +39,8 @@ const App = () => {
       formProps.id = largestId+1
       personService.post("http://localhost:3000/persons", formProps)
       setPersons(persons.concat(formProps))
+      setSuccessMessage(`Added ${formProps.name}`)
+      setTimeout(() => {setSuccessMessage(null)}, 5000)
     }
   }
 
@@ -72,6 +75,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={successMessage} />
       <Filter handleFilter={handleFilter} />
       <h2>add a new</h2>
       <PersonForm handleSubmit={handleSubmit} />
@@ -103,6 +107,18 @@ const PersonForm = ({handleSubmit}) => {
 
 const Persons = ({display}) => {
   return(display())
+}
+
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <p className='notification'>
+      {message}
+    </p>
+  )
 }
 
 export default App
