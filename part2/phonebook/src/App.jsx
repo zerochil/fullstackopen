@@ -23,7 +23,6 @@ const App = () => {
 
     // const personExist = persons.filter( person => person.name === formProps.name)rson => 
     const index = persons.findIndex( person => person.name === formProps.name )
-    console.log(index)
     if ( index >= 0 ){
       if ( formProps.number == persons[index].number ){
         alert( `${formProps.name} is alrady added to phonebook` )
@@ -32,10 +31,10 @@ const App = () => {
           persons[index].number = formProps.number
           personService.put(persons[index].id, persons[index]).then(
             () => setPersons([...persons])
-          ) 
-          .catch( () => 
+          ).catch( () => {
             setMessage({content:`Infomation about ${formProps.name} has already been removed from server`, status:'error'})
-          )
+            setTimeout(() => {setMessage(null)}, 5000)
+          })
         }
       }
     } else {
