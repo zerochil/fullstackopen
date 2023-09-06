@@ -26,7 +26,20 @@ const App = () => {
       return
     }
 
-    setPersons([...persons, formProps])
+    formProps.id = persons.length+1
+
+    // const newPersons = persons.concat(formProps)
+
+    axios
+    .post("http://localhost:3000/persons", formProps)
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log("Error:", error.message);
+    });
+
+    setPersons(persons.concat(formProps))
   }
 
 
