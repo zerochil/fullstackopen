@@ -10,6 +10,10 @@ const App = () => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
+    if ( persons.some( person => person.name === formProps.name) ){
+      alert( `${formProps.name} is alrady added to phonebook` )
+      return
+    }
     const newcopy = [...persons, formProps]
     setPersons(newcopy)
   }
