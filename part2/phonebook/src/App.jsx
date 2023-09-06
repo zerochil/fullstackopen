@@ -1,15 +1,19 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import 'axios'
+import axios from 'axios'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ])
+  const [persons, setPersons] = useState([])
   // const [newName, setNewName] = useState('')
   const [filter, setFilter] = useState('')
 
+  useEffect(() => {
+    axios.get("http://localhost:3000/db").then(
+      (response) => {
+        setPersons(response.data.persons)
+      }    
+    )
+  },[])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,7 +59,7 @@ const App = () => {
 
 const Filter = ({handleFilter}) => {
   return (
-    <div>number: <input type="text" name="number" onKeyUp={handleFilter} /></div>
+    <div>filter: <input type="text" name="number" onKeyUp={handleFilter} /></div>
   )
 }
 
