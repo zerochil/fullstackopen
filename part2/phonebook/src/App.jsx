@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-import 'axios'
-import axios from 'axios'
+import personService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -8,7 +7,7 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    axios.get("http://localhost:3000/db").then(
+    personService.get("http://localhost:3000/db").then(
       (response) => {
         setPersons(response.data.persons)
       }    
@@ -30,14 +29,7 @@ const App = () => {
 
     // const newPersons = persons.concat(formProps)
 
-    axios
-    .post("http://localhost:3000/persons", formProps)
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log("Error:", error.message);
-    });
+  personService.post("http://localhost:3000/persons", formProps)
 
     setPersons(persons.concat(formProps))
   }
