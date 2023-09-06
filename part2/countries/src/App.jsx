@@ -28,14 +28,14 @@ const App = () => {
     <div>
       <div>
         <span>find countries:</span> <input type="text" onKeyUp={handleSearch}></input>
-        <Country country={search} />
+        <Country country={search} setSearch={setSearch} />
       </div>
     </div>
   )
 
 }
 
-const Country = ({country}) => {
+const Country = ({country, setSearch}) => {
   if (country == null) {
     return (
       <p>Too many matches, specify another filter</p>
@@ -43,7 +43,9 @@ const Country = ({country}) => {
   } else if (Array.isArray(country)) {
     return (
       <div>
-        {country.map(country => <li key={country.name.common}>{country.name.common}</li>)}
+        {country.map(country => <li key={country.name.common}>
+          {country.name.common}<button onClick={() => setSearch(country)}>show</button>
+          </li>)}
       </div>
     )
   }
