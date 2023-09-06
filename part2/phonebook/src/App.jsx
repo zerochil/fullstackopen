@@ -20,16 +20,25 @@ const App = () => {
     const formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
-    if ( persons.some( person => person.name === formProps.name) ){
-      alert( `${formProps.name} is alrady added to phonebook` )
-      return
+    // const personExist = persons.filter( person => person.name === formProps.name)rson => 
+    const index = persons.findIndex( person => person.name === formProps.name )
+    console.log(index)
+    if ( index ){
+      if ( formProps.number == persons[index].number ){
+        alert( `${formProps.name} is alrady added to phonebook` )
+      } else {
+        if (confirm( `${formProps.name} is alrady added to phonebook, replace old number with new one?` )){
+          persons[index].number = formProps.number
+          personService.put(persons[index].id, persons[index])
+          setPersons([...persons])
+        }
+      }
+    } else {
+      const largestId = Math.max(...persons.map(person=>person.id))
+      formProps.id = largestId+1
+      personService.post("http://localhost:3000/persons", formProps)
+      setPersons(persons.concat(formProps))
     }
-
-    const largestId = Math.max(...persons.map(person=>person.id))
-    formProps.id = largestId+1
-
-    personService.post("http://localhost:3000/persons", formProps)
-    setPersons(persons.concat(formProps))
   }
 
   const handleDelete = (e) => {

@@ -14,12 +14,13 @@ const remove = (id) => {
   return instance.delete(id)
 }
 
-// const get = (url) => {
-//   return instance.get(url)
-// }
+const put = (id, data) => {
+  return instance.put(id.toString(), data)
+}
 
 export default {
   get: get,
   post: post,
-  remove: remove
+  remove: remove,
+  put: put
 }
