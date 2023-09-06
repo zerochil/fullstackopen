@@ -11,29 +11,9 @@
       "id": 2
     },
     {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": 3
-    },
-    {
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": 4
-    },
-    {
-      "name": "Arto Hellas fsfr",
-      "number": "39-44-5323523",
-      "id": 5
-    },
-    {
-      "name": "Arto Hellas fsf",
-      "number": "39-44-5323523",
-      "id": 6
-    },
-    {
-      "name": "Arto Hellas fsfrff",
-      "number": "39-44-5323523",
-      "id": 7
     }
   ]
 }

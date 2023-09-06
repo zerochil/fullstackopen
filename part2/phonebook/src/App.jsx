@@ -25,22 +25,32 @@ const App = () => {
       return
     }
 
-    formProps.id = persons.length+1
+    const largestId = Math.max(...persons.map(person=>person.id))
+    formProps.id = largestId+1
 
-    // const newPersons = persons.concat(formProps)
-
-  personService.post("http://localhost:3000/persons", formProps)
-
+    personService.post("http://localhost:3000/persons", formProps)
     setPersons(persons.concat(formProps))
   }
 
+  const handleDelete = (e) => {
+    const id = e.target.id
+    setPersons( persons.filter(person => person.id != id) )
+    personService.remove(id)
+  }
 
   const displayNumbers = () => {
     return (
       persons.filter( 
         person => person.name.toLowerCase().includes(filter.toLowerCase())
       ).map(
-        person => <p key={person.name}>{person.name} {person.number}</p>
+        person => {
+          return (
+            <p key={person.id}>
+              {person.name} {person.number}
+              <button onClick={handleDelete} id={person.id}>delete</button>
+            </p>
+          )
+        }
       )
     )
   }
