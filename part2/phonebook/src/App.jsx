@@ -5,7 +5,7 @@ const App = () => {
   const [persons, setPersons] = useState([])
   // const [newName, setNewName] = useState('')
   const [filter, setFilter] = useState('')
-  const [successMessage, setSuccessMessage] = useState(null)
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     personService.get("http://localhost:3000/db").then(
@@ -14,10 +14,10 @@ const App = () => {
       }    
     )
   },[])
-  setSuccessMessage
+  setMessage
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSuccessMessage
+    setMessage
     const formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
@@ -30,8 +30,12 @@ const App = () => {
       } else {
         if (confirm( `${formProps.name} is alrady added to phonebook, replace old number with new one?` )){
           persons[index].number = formProps.number
-          personService.put(persons[index].id, persons[index])
-          setPersons([...persons])
+          personService.put(persons[index].id, persons[index]).then(
+            () => setPersons([...persons])
+          ) 
+          .catch( () => 
+            setMessage({content:`Infomation about ${formProps.name} has already been removed from server`, status:'error'})
+          )
         }
       }
     } else {
@@ -39,8 +43,8 @@ const App = () => {
       formProps.id = largestId+1
       personService.post("http://localhost:3000/persons", formProps)
       setPersons(persons.concat(formProps))
-      setSuccessMessage(`Added ${formProps.name}`)
-      setTimeout(() => {setSuccessMessage(null)}, 5000)
+      setMessage({content:`Added ${formProps.name}`, status:'success'})
+      setTimeout(() => {setMessage(null)}, 5000)
     }
   }
 
@@ -75,7 +79,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <Notification message={successMessage} />
+      <Notification message={message} />
       <Filter handleFilter={handleFilter} />
       <h2>add a new</h2>
       <PersonForm handleSubmit={handleSubmit} />
@@ -115,8 +119,8 @@ const Notification = ({ message }) => {
   }
 
   return (
-    <p className='notification'>
-      {message}
+    <p className={`notification ${message.status}`}>
+      {message.content}
     </p>
   )
 }
