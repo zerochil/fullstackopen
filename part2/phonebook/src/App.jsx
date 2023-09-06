@@ -10,6 +10,7 @@ const App = () => {
   // const [newName, setNewName] = useState('')
   const [filter, setFilter] = useState('')
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -24,6 +25,7 @@ const App = () => {
     setPersons([...persons, formProps])
   }
 
+
   const displayNumbers = () => {
     return (
       persons.filter( 
@@ -34,6 +36,7 @@ const App = () => {
     )
   }
 
+
   const handleFilter = (e) => {
     setFilter(e.target.value)
   }
@@ -41,22 +44,37 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <div>number: <input type="text" name="number" onKeyUp={handleFilter} /></div>
+      <Filter handleFilter={handleFilter} />
       <h2>add a new</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          name: <input type="text" name="name" />
-        </div>
-        <div>number: <input type="text" name="number" /></div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm handleSubmit={handleSubmit} />
       <h2>Numbers</h2>
-      {displayNumbers()}
-      {/* {persons.map( person => <p key={person.name}>{person.name} {person.number}</p>)} */}
+      <Persons display={displayNumbers} />
     </div>
   )
+}
+
+const Filter = ({handleFilter}) => {
+  return (
+    <div>number: <input type="text" name="number" onKeyUp={handleFilter} /></div>
+  )
+}
+
+const PersonForm = ({handleSubmit}) => {
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        name: <input type="text" name="name" />
+      </div>
+      <div>number: <input type="text" name="number" /></div>
+      <div>
+        <button type="submit">add</button>
+      </div>
+    </form>
+  )
+}
+
+const Persons = ({display}) => {
+  return(display())
 }
 
 export default App
