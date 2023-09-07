@@ -8,16 +8,15 @@ const App = () => {
   const [message, setMessage] = useState(null)
 
   useEffect(() => {
-    personService.get("http://localhost:3000/db").then(
+    personService.get("/").then(
       (response) => {
-        setPersons(response.data.persons)
+        setPersons(response.data)
       }    
     )
   },[])
-  setMessage
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setMessage
     const formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
@@ -40,7 +39,7 @@ const App = () => {
     } else {
       const largestId = Math.max(...persons.map(person=>person.id))
       formProps.id = largestId+1
-      personService.post("http://localhost:3000/persons", formProps)
+      personService.post("/", formProps)
       setPersons(persons.concat(formProps))
       setMessage({content:`Added ${formProps.name}`, status:'success'})
       setTimeout(() => {setMessage(null)}, 5000)

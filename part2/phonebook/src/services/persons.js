@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const instance = axios.create({ baseURL: '/persons' });
+const instance = axios.create({ baseURL: '//localhost:3000/persons' });
 
 const post = (url, data) => {
     return instance.post(url, data)
