@@ -51,9 +51,8 @@ app.delete('/api/persons/:id', (request, response) => {
 })
 
 app.post('/api/persons', (request, response) => {
-  const maxId = (persons.length > 0) ? Math.max(...persons.map(person => person.id)) : 0
   const person = request.body
-  person.id = maxId + 1
+  person.id = Math.floor(Math.random()*10000000)
   persons = persons.concat(person)
 
   response.json(person)
