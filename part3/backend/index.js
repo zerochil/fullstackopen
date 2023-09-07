@@ -86,8 +86,9 @@ const unknownEndpoint = (request, response) => {
 };
 
 app.use(unknownEndpoint);
+app.use(express.static('dist'))
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3000
 
 app.listen(PORT, () => {
   console.log(`app listening on port ${PORT}`);
