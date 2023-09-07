@@ -11,6 +11,8 @@ app.use(express.json());
 app.use(
   morgan(':method :url :status :res[content-length] - :response-time ms :req-body')
 );
+app.use(express.static('dist'));
+
 
 let persons = [
   { 
@@ -86,7 +88,6 @@ const unknownEndpoint = (request, response) => {
 };
 
 app.use(unknownEndpoint);
-app.use(express.static('dist'))
 
 const PORT = process.env.PORT || 3000
 
