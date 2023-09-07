@@ -25,6 +25,10 @@ let persons = [
   }
 ]
 
+app.get('/info/', (request, response) => {
+  const d = new Date()
+  response.send(`<p>Phonebook has info for ${persons.length} people</p><p>${d.toString()}</p>`)
+})
 
 app.get('/api/persons/', (request, response) => {
   // const id = request.params.id
